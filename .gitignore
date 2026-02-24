@@ -1,0 +1,9 @@
+# Devcontainer configs copied from host (might contain credentials)
+.devcontainer/.resources
+
+# host-setup backs up devcontainer's own git here, shouldn't ever get tracked but just in case
+.git.bak
+
+# Keep workspace dir for structure, but ignore what happens there 
+workspace/**
+!workspace/.gitkeep

@@ -1,0 +1,36 @@
+{
+  "name": "Claudetainer",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "TZ": "${localEnv:TZ:Europe/Frankfurt}",
+      "GIT_DELTA_VERSION": "0.18.2"
+    }
+  },
+  "runArgs": [
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {}
+    }
+  },
+  "remoteUser": "node",
+  "updateRemoteUserUID": true,
+  "mounts": [
+    "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
+    "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume",
+    "source=claude-code-cache-${devcontainerId},target=/home/node/.cache/claude,type=volume",
+    "source=claude-code-local-${devcontainerId},target=/home/node/.local/share/claude,type=volume"
+  ],
+  "containerEnv": {
+    "SSH_AUTH_SOCK": "",
+    "CONTEXT7_MCP_BEARER_TOKEN": "${localEnv:CONTEXT7_MCP_BEARER_TOKEN}",
+    "NODE_OPTIONS": "--max-old-space-size=4096"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder}/workspace,target=/workspace,type=bind,consistency=delegated",
+  "workspaceFolder": "/workspace",
+  "postStartCommand": "/usr/local/bin/post-start.sh",
+  "waitFor": "postStartCommand"
+}
